@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 
-from .models import Category, Movie, Avatar
+from .models import Category, Movie, Avatar, Review
 
 # Create your views here.
 
@@ -133,3 +133,26 @@ def list_movies(request):
         movies = Movie.objects.all().order_by("-added_on")
     
     return render(request, "movies.html", {"movies": movies, "genres": genres})
+
+
+@login_required(login_url="/login")
+def rate_movie(request, movie_id):
+    # TODO: Fix the coloring
+    # TODO: FIx the button coloring
+
+    movie = Movie.objects.get(id=movie_id)
+    reviews = Review.objects.all().filter(movie=movie)
+    user = User.objects.get(id=request.user.id)
+    has_rated = reviews.filter(user=user)
+    if has_rated:
+        has_rated = True
+    else:
+        has_rated =  False
+
+    if request.method == "POST":
+        rating = request.POST["rating"]
+        user_rated = Review(user=request.user, movie=movie, rating=rating)
+        user_rated.save()
+        return HttpResponseRedirect(f"/movie/{movie_id}")
+
+    return render(request, "rate.html", {"has_rated": has_rated})

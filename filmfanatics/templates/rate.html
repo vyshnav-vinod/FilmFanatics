@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Rating</title>
+    <style>
+        .rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        label {
+            cursor: pointer;
+            font-size: 30px;
+            color: #888888;
+        }
+
+        label:before {
+            content: "★";
+        }
+
+        input[type="radio"]:checked ~ label:nth-of-type(-n+5):before {
+            color: #f2bc05;
+        }
+    </style>
+</head>
+<body>
+    {% if has_rated == False %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="rating">
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1"></label>
+
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2"></label>
+
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3"></label>
+
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4"></label>
+
+            <input type="radio" id="star5" name="rating" value="5">
+            <label for="star5"></label>
+        </div>
+
+        <input type="submit" value="Submit Rating">
+    </form>
+    {% else %}
+    <div align="center">
+    <h3>You have already rated</h3>
+    <a href="/"><button class="btn btn-primary">Home</button></a>
+    </div>
+    {% endif %}
+</body>
+</html>

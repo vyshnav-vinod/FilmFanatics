@@ -31,3 +31,9 @@ class Avatar(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     img = models.URLField(default="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?t=st=1715333046~exp=1715336646~hmac=e941db73c41712d97bfc01647685731931716d7f4460a130d20c786d0635a8f2&w=826")
 
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    review = models.CharField(max_length=500, null=True)
+    rating = models.IntegerField(default=0)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)

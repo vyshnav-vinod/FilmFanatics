@@ -11,5 +11,6 @@ urlpatterns = [
     path("add_movie", views.add_movie, name="addmovie"),
     path("profile/<int:pk>", views.profile, name="profile"),
     path("movie/<int:pk>", views.view_movie, name="viewmovie"),
-    path("allmovies", views.list_movies, name="allmovies")
+    path("allmovies", views.list_movies, name="allmovies"),
+    path("rate/<int:movie_id>", views.rate_movie, name="ratemovie")
 ]
