@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.db.models import Q
 
 from .models import Category, Movie, Avatar
 
@@ -103,3 +104,32 @@ def profile(request, pk):
 def view_movie(request, pk):
     movie = Movie.objects.get(id=pk)
     return render(request, "view_movie.html", {"movie": movie})
+
+def list_movies(request):
+    genres = Category.objects.all()
+    
+    if request.method == "POST":
+        search = request.POST["search"]
+        genre = request.POST["genre"]
+        search_filter = request.POST["filter"]
+        # TODO: After rating and reviews implement filter searches
+        if genre:
+            movies = Movie.objects.filter(Q(title__contains=search) & Q(category__name=genre))
+        else:
+            movies = Movie.objects.filter(Q(title__contains=search))
+        
+
+        # Filters
+
+        if search_filter:
+            match search_filter:
+                case "latest":
+                    movies = movies.order_by("-release_date")
+                case "oldest":
+                    movies = movies.order_by("release_date")
+
+    
+    else:
+        movies = Movie.objects.all().order_by("-added_on")
+    
+    return render(request, "movies.html", {"movies": movies, "genres": genres})

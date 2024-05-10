@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container mt-5">
+    <!-- Search bar and filters -->
+    <form method="post">
+        {% csrf_token %}
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Search movies" style="width: 100%; height: 40px;" name="search">
+            </div>
+            <div class="col-md-4">
+                <select class="form-control" name="genre" style="width: 100%; height: 40px;">
+                    <option value="">Select Genre</option>
+                    {% for genre in genres %}
+                    <option value="{{ genre.name }}">{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" name="filter" style="width: 100%; height: 40px;">
+                    <option value="">Select Filter</option>
+                    <option value="recent">Recently Added</option>
+                    <option value="latest">Latest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="most_rated">Most rated</option>
+                    <option value="least_rated">Least rated</option>
+                    <option value="most_reviews">Most reviews</option>
+                    <option value="least_reviews">Least reviews</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary" style="width: 100%; height: 40px;">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Add space -->
+    <div class="row mb-4"></div>
+
+    <!-- Movie listing -->
+    <div class="row">
+        {% if movies %}
+            {% for movie in movies %}
+            <div class="col-md-4">
+                <a href="{% url 'main:viewmovie' movie.id %}" class="text-decoration-none">
+                    <div class="card mb-3" style="width: 400px;">
+                        <div class="row no-gutters">
+                            <div class="col-md-6">
+                                <img src="{{ movie.poster.url }}" class="card-img" alt="Movie Poster" style="height: 150px; object-fit: fill;">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ movie.title }}</h5>
+                                    <p class="card-text">Rating: {{ movie.rating }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-md-12 text-center">
+                <img src="https://img.freepik.com/free-vector/hand-drawn-no-data-concept_52683-127823.jpg?t=st=1715343388~exp=1715346988~hmac=3187660b8f94688e8204cafe18811489e25e67faf7fbd7bf388cbafa78d78261&w=1380" alt="No movies found" style="height: 300px; width: auto; display: block; margin: 0 auto;">
+                <p >Designed by <a href = "www.freepik.com" >freepik</a></p><br><br>
+                <h3>No movies found</h3>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
