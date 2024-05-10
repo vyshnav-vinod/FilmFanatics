@@ -6,7 +6,7 @@
         <div class="row no-gutters">
             <!-- Profile Photo -->
             <div class="col-md-4">
-                <img src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?t=st=1715333046~exp=1715336646~hmac=e941db73c41712d97bfc01647685731931716d7f4460a130d20c786d0635a8f2&w=826" alt="Profile Photo" class="profile-photo card-img-top" style="width: 300px; height: 300px;">
+                <img src="{{ avatar.img }}" alt="Profile Photo" class="profile-photo card-img-top" style="width: 300px; height: 300px;">
             </div>
             <!-- User Information -->
             <div class="col-md-8">
@@ -25,7 +25,6 @@
             <h2>Added Movies</h2>
             <div class="row">
                 {% for m in movies %}
-                <!-- Movie 1 -->
                 <div class="col-md-2 mb-4">
                     <a href="{% url 'main:viewmovie' m.id %}" style="text-decoration: none; color: inherit;">
                         <div class="card" style="width: fit-content;">

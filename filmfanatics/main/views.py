@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
-from .models import Category, Movie
+from .models import Category, Movie, Avatar
 
 # Create your views here.
 
@@ -93,8 +93,12 @@ def profile(request, pk):
 
     user = User.objects.get(id=pk)
     user_movies = Movie.objects.all().filter(author=pk)
-    print(user_movies)
-    return render(request, "profile.html", {"profile_user": user, "movies":user_movies})
+    try:
+        avatar = Avatar.objects.get(user=pk)
+    except Avatar.DoesNotExist:
+        avatar = Avatar(user=user)
+        avatar.save()
+    return render(request, "profile.html", {"profile_user": user, "movies": user_movies, "avatar": avatar})
 
 def view_movie(request, pk):
     movie = Movie.objects.get(id=pk)
