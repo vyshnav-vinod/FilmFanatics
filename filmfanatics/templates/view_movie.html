@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ movie.poster.url }}" class="img-fluid mb-3" alt="Movie Poster" style="width: 400px; height: 600px;">
+        </div>
+        <div class="col-md-6">
+            <h1 class="h2 mb-4">{{ movie.title }}</h1>
+            <h2 class="h4"><strong>Description:</strong></h2>
+            <div id="description-container" style="overflow-y: auto; max-height: 250px;">
+                <p class="lead" id="description">{{ movie.description }}</p>
+            </div>
+            <br>
+            <h2 class="h4"><strong>Genre:</strong></h2>
+            <p class="lead">{{ movie.category }}</p>
+            <h2 class="h4"><strong>Release Date:</strong></h2>
+            <p class="lead">{{ movie.release_date }}</p>
+            <h2 class="h4"><strong>Actors:</strong></h2>
+            <p class="lead">{{ movie.actors }}</p>
+            <a href="{{ movie.trailer }}"><button type="button" class="btn btn-primary btn-lg mt-3">Watch Trailer</button></a>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2 class="h4 mb-4">User Reviews</h2>
+            <!-- Add review section here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Limit description to 250 words
+    let description = document.getElementById('description').innerText;
+    let words = description.split(' ');
+    if (words.length > 250) {
+        words = words.slice(0, 250);
+        document.getElementById('description').innerText = words.join(' ') + '...';
+    }
+</script>
+
+{% endblock %}

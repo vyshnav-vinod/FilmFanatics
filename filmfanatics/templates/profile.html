@@ -11,10 +11,10 @@
             <!-- User Information -->
             <div class="col-md-8">
                 <div class="card-body">
-                    <h3 class="card-title display-4">User's Name</h3>
-                    <p class="card-text lead"><strong>Username:</strong> username</p>
-                    <p class="card-text lead"><strong>Email:</strong> user@example.com</p>
-                    <p class="card-text lead"><strong>Joined Date:</strong> January 1, 2022</p>
+                    <h3 class="card-title display-4">{{ profile_user.first_name }} {{ profile_user.last_name }}</h3>
+                    <p class="card-text lead"><strong>Username:</strong> {{ profile_user.username }}</p>
+                    <p class="card-text lead"><strong>Email:</strong> {{ profile_user.email }}</p>
+                    <p class="card-text lead"><strong>Joined Date:</strong> {{ profile_user.date_joined }}</p>
                 </div>
             </div>
         </div>
@@ -23,20 +23,20 @@
     <div class="row mt-5">
         <div class="col-md-12">
             <h2>Added Movies</h2>
-            <div class="card-deck">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Movie Title 1</h5>
-                        <p class="card-text">Movie Description 1</p>
-                    </div>
+            <div class="row">
+                {% for m in movies %}
+                <!-- Movie 1 -->
+                <div class="col-md-2 mb-4">
+                    <a href="{% url 'main:viewmovie' m.id %}" style="text-decoration: none; color: inherit;">
+                        <div class="card" style="width: fit-content;">
+                            <img src="{{ m.poster.url }}" class="card-img-top" alt="Movie Poster" style="width: 200px; height: 300px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ m.title | truncatechars:15 }}</h5>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Movie Title 2</h5>
-                        <p class="card-text">Movie Description 2</p>
-                    </div>
-                </div>
-                <!-- Add more movies as needed -->
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -58,4 +58,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

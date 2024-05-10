@@ -91,4 +91,11 @@ def profile(request, pk):
 
     # FOR Now let user choose from some default avatars and no option to add custom avatar
 
-    return render(request, "profile.html")
+    user = User.objects.get(id=pk)
+    user_movies = Movie.objects.all().filter(author=pk)
+    print(user_movies)
+    return render(request, "profile.html", {"profile_user": user, "movies":user_movies})
+
+def view_movie(request, pk):
+    movie = Movie.objects.get(id=pk)
+    return render(request, "view_movie.html", {"movie": movie})
