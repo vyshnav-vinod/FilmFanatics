@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from .models import Category, Movie, Avatar, Review
 
@@ -153,6 +153,10 @@ def rate_movie(request, movie_id):
         rating = request.POST["rating"]
         user_rated = Review(user=request.user, movie=movie, rating=rating)
         user_rated.save()
+        movie.rating = reviews.aggregate(Sum('rating'))['rating__sum'] / reviews.count()
+        movie.save()
         return HttpResponseRedirect(f"/movie/{movie_id}")
+
+    print(reviews.aggregate(Sum('rating')))
 
     return render(request, "rate.html", {"has_rated": has_rated})

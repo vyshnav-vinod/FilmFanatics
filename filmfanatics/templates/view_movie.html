@@ -6,7 +6,11 @@
             <img src="{{ movie.poster.url }}" class="img-fluid mb-3" alt="Movie Poster" style="width: 400px; height: 600px;">
         </div>
         <div class="col-md-6">
-            <h1 class="h2 mb-4">{{ movie.title }}</h1>
+            <h1 class="h2 mb-4">{{ movie.title }}
+                <span style="font-size: 20px; margin-left: 10px;">
+                    <i class="fas fa-star" style="color: gold;"></i> 3/5
+                </span>
+            </h1>
             <h2 class="h4"><strong>Description:</strong></h2>
             <div id="description-container" style="overflow-y: auto; max-height: 250px;">
                 <p class="lead" id="description">{{ movie.description }}</p>
