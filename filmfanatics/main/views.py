@@ -76,7 +76,19 @@ def add_movie(request):
 
         movie = Movie(title=title, description=description, category=category, release_date=release_date, actors=actors, poster=poster, trailer=trailer, author=author)
         movie.save()
+        return render(request, "add_movie_success.html")
 
     category_list = Category.objects.all()
     return render(request, "add_movie.html", {'categories': category_list})
-    
+
+
+@login_required(login_url="/login")
+def profile(request, pk):
+    """Profile page for others to view and also for user to edit profile"""
+    if request.method == "POST":
+        # Option to edit (Only show edit if current user is the one editing )
+        pass
+
+    # FOR Now let user choose from some default avatars and no option to add custom avatar
+
+    return render(request, "profile.html")

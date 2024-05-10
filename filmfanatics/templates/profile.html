@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container mt-5">
+    <div class="card bg-light mb-3">
+        <div class="row no-gutters">
+            <!-- Profile Photo -->
+            <div class="col-md-4">
+                <img src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?t=st=1715333046~exp=1715336646~hmac=e941db73c41712d97bfc01647685731931716d7f4460a130d20c786d0635a8f2&w=826" alt="Profile Photo" class="profile-photo card-img-top" style="width: 300px; height: 300px;">
+            </div>
+            <!-- User Information -->
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title display-4">User's Name</h3>
+                    <p class="card-text lead"><strong>Username:</strong> username</p>
+                    <p class="card-text lead"><strong>Email:</strong> user@example.com</p>
+                    <p class="card-text lead"><strong>Joined Date:</strong> January 1, 2022</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Added Movies Section -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2>Added Movies</h2>
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Movie Title 1</h5>
+                        <p class="card-text">Movie Description 1</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Movie Title 2</h5>
+                        <p class="card-text">Movie Description 2</p>
+                    </div>
+                </div>
+                <!-- Add more movies as needed -->
+            </div>
+        </div>
+    </div>
+    <!-- Added Reviews Section -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2>Added Reviews</h2>
+            <div class="card">
+                <div class="card-body">
+                    <!-- Review 1 -->
+                    <h5 class="card-title">Review Title 1</h5>
+                    <p class="card-text">Review Description 1</p>
+                    <!-- Review 2 -->
+                    <h5 class="card-title">Review Title 2</h5>
+                    <p class="card-text">Review Description 2</p>
+                    <!-- Add more reviews as needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

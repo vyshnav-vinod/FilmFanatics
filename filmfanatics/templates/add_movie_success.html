@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Successfully Added</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Movie Successfully Added!</h1>
+        <div class="mt-4">
+            <a href="{% url 'main:addmovie' %}" class="btn btn-primary">Add Another Movie</a>
+            <a href="{% url 'main:index' %}" class="btn btn-secondary">Go Back Home</a>
+        </div>
+    </div>
+</body>
+</html>
