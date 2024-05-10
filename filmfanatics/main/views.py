@@ -1,8 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+
+from .models import Category, Movie
 
 # Create your views here.
 
@@ -49,3 +52,31 @@ def register_view(request):
             return  render(request, "welcome.html", context)
     
     return render(request, "register.html")
+
+def logout_user(request):
+    logout(request)
+    return render(request, "logout.html")
+
+
+@login_required(login_url="/login")
+def add_movie(request):
+    # TODO: Maybe get a API for a list of actors to show when selecting the actors field
+
+    if request.method == "POST":
+        title = request.POST["title"]
+        description = request.POST["description"]
+        genre = request.POST["genre"]
+        release_date = request.POST["release_date"]
+        actors = request.POST["actors"]
+        poster = request.FILES["poster"]
+        trailer = request.POST["trailer"]
+
+        category = Category.objects.get(name=genre)
+        author = request.user
+
+        movie = Movie(title=title, description=description, category=category, release_date=release_date, actors=actors, poster=poster, trailer=trailer, author=author)
+        movie.save()
+
+    category_list = Category.objects.all()
+    return render(request, "add_movie.html", {'categories': category_list})
+    
