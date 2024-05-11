@@ -103,6 +103,7 @@ def profile(request, pk):
 def view_movie(request, pk, _already_reviewed=False):
     # _already_reviewed is set to know if user has already reviewed it. It
     # is called from review_movie() only
+    # TODO: Fix the position of the edit and dlt icon in reviews
     if _already_reviewed:
         messages.error(request, "You have already reviewed once!!")
     movie = Movie.objects.get(id=pk)
@@ -200,11 +201,22 @@ def edit_movie(request, movie_id):
 def dlt_movie(request, movie_id):
     if request.method == "POST":
         movie = Movie.objects.get(id=movie_id)
-        print(request.user.id)
-        print(movie.author.id)
         if not request.user.id == movie.author.id:
             return HttpResponseForbidden("Forbidden")
         movie.delete()
         return HttpResponseRedirect("/")
     return HttpResponseForbidden("Forbidden")
     
+
+@login_required(login_url="/login")
+def dlt_review(request, movie_id):
+    if request.method == "POST":
+        movie = Movie.objects.get(id=movie_id)
+        review = Review.objects.filter(movie=movie).get(user=request.user)
+        if not request.user.id == review.user.id:
+            return HttpResponseForbidden("Forbidden")
+        review.delete()
+        return HttpResponseRedirect(f"/movie/{movie_id}")
+    return HttpResponseForbidden("Forbidden")
+    
+            
