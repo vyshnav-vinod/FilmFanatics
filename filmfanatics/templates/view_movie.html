@@ -9,8 +9,16 @@
             <h1 class="h2 mb-4">{{ movie.title }}
                 <span style="font-size: 20px; margin-left: 10px;">
                     <i class="fas fa-star" style="color: gold;"></i> {{ movie.rating }} / 5
+                    {% if movie.author.id == user.id %}
+                    <i class="fas fa-edit" style="color: blue; margin-left: 10px;"></i>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#dltModal" class="btn btn-link p-0 m-0">
+                        <i class="fas fa-trash-alt" style="color: red;"></i>
+                    </button>
+                    
+                    {% endif %}
                 </span>
             </h1>
+            
             <h2 class="h4"><strong>Description:</strong></h2>
             <div id="description-container" style="overflow-y: auto; max-height: 250px;">
                 <p class="lead" id="description">{{ movie.description }}</p>
@@ -87,6 +95,27 @@
     </section>
     
 </div>
+
+<!-- DELETE POPUP MOVIE -->
+<div class="modal fade" id="dltModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete?</h5>
+            </div>            
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ movie.title }}</strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="{% url 'main:dltmovie' movie.id %}"> {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Go Back</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- DELETE POPUP MOVIE END -->
 
 <script>
     // Limit textarea review box to 2000 characters

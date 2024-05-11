@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.db.models import Q, Sum
 
 from .models import Category, Movie, Avatar, Review
@@ -191,3 +191,20 @@ def review_movie(request, movie_id):
             review.save()
     return HttpResponseRedirect(f"/movie/{movie_id}")
         
+
+@login_required(login_url="/login")
+def edit_movie(request, movie_id):
+    pass
+
+@login_required(login_url="/login")
+def dlt_movie(request, movie_id):
+    if request.method == "POST":
+        movie = Movie.objects.get(id=movie_id)
+        print(request.user.id)
+        print(movie.author.id)
+        if not request.user.id == movie.author.id:
+            return HttpResponseForbidden("Forbidden")
+        movie.delete()
+        return HttpResponseRedirect("/")
+    return HttpResponseForbidden("Forbidden")
+    
