@@ -97,7 +97,8 @@ def profile(request, pk):
 
     user = User.objects.get(id=pk)
     user_movies = Movie.objects.all().filter(author=pk)
-    return render(request, "profile.html", {"profile_user": user, "movies": user_movies})
+    user_reviews = Review.objects.filter(user=user).order_by("-added_on")
+    return render(request, "profile.html", {"profile_user": user, "movies": user_movies, "reviews": user_reviews})
 
 def view_movie(request, pk, _already_reviewed=False):
     # _already_reviewed is set to know if user has already reviewed it. It
@@ -105,7 +106,7 @@ def view_movie(request, pk, _already_reviewed=False):
     if _already_reviewed:
         messages.error(request, "You have already reviewed once!!")
     movie = Movie.objects.get(id=pk)
-    reviews = Review.objects.filter(movie=movie)
+    reviews = Review.objects.filter(movie=movie).order_by("-added_on")
     reviews_count = reviews.count()
     return render(request, "view_movie.html", {"movie": movie, "reviews": reviews, "count": reviews_count})
 
@@ -176,7 +177,6 @@ def rate_movie(request, movie_id):
 
 @login_required(login_url="/login")
 def review_movie(request, movie_id):
-    # TODO: Add in html the limit of words of review is 500
     if request.method == "POST":
         movie = Movie.objects.get(id=movie_id)
         review_content = request.POST["review"]

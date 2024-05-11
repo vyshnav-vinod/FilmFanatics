@@ -36,7 +36,6 @@
                     {% if user.is_authenticated %}   
                     <form method="post" action="{% url 'main:reviewmovie' movie.id %}"> {% csrf_token %}
                         <h3 class="pull-left">Add a review</h3>
-                        <button type="submit" class="btn btn-secondary pull-right">Submit</button>
                         <fieldset>
                             <div class="row">
                                 <div class="col-sm-2 col-lg-1 hidden-xs">
@@ -48,6 +47,7 @@
                                 </div>
                             </div>  	
                         </fieldset>
+                        <button type="submit" class="btn btn-secondary pull-right">Submit</button>
                     </form>
                     {% if messages %}
                     {% for msg in messages %}

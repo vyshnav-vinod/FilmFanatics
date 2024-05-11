@@ -39,23 +39,28 @@
             </div>
         </div>
     </div>
-    <!-- Added Reviews Section -->
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <h2>Added Reviews</h2>
-            <div class="card">
-                <div class="card-body">
-                    <!-- Review 1 -->
-                    <h5 class="card-title">Review Title 1</h5>
-                    <p class="card-text">Review Description 1</p>
-                    <!-- Review 2 -->
-                    <h5 class="card-title">Review Title 2</h5>
-                    <p class="card-text">Review Description 2</p>
-                    <!-- Add more reviews as needed -->
+        <!-- Added Reviews Section -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2>Added Reviews</h2>
+                <div class="card-columns">
+                    {% for review in reviews %}
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{% url 'main:viewmovie' review.movie.id %}" style="text-decoration: none; color: inherit;"><h5 class="card-title">{{ review.movie.title }}</h5></a>
+                            <p class="card-text">{{ review.review|truncatechars:500 }}</p>
+                            <p class="card-text"><small class="text-muted">Date: {{ review.added_on }}</small></p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="alert alert-info" role="alert">
+                        User has not added any reviews yet!!
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-    </div>
+
 </div>
 
 {% endblock %}
