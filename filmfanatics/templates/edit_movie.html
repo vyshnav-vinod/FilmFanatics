@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container mt-5 mb-5">
+    <div class="card bg-light mb-3">
+        <div class="row no-gutters">
+            <!-- Movie Information -->
+            <div class="col-md-8">
+                <div class="card-body">
+                    <form  method="post" enctype="multipart/form-data"> {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="title" class="form-label"><strong>Title</strong></label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ movie.title }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label"><strong>Description:</strong></label>
+                            <input type="textarea" class="form-control" id="description" name="description" value="{{ movie.description }}" maxlength="5000">
+                        </div>
+                        <div class="mb-3">
+                            <label for="release_date" class="form-label"><strong>Release_date:</strong></label>
+                            <input type="date" class="form-control" id="release_date" name="release_date" value="{{ movie.release_date.isoformat }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="actors" class="form-label"><strong>Actors</strong></label>
+                            <input type="text" class="form-control" id="actors" name="actors" value="{{ movie.actors }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="genre" class="form-label"><strong>Genre</strong></label>
+                            <select class="form-control" id="genre" name="genre">
+                                <option value="{{ movie.category }}">{{ movie.category }}</option>
+                                {% for c in categories  %}
+                                <option value="{{c.name}}">{{c.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="trailer" class="form-label"><strong>Trailer</strong></label>
+                            <input type="url" class="form-control" id="trailer" name="trailer" value="{{ movie.trailer }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="poster" class="fw-bold fs-5">Poster:</label>
+                            <input type="file" class="form-control-file" id="poster" name="poster" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-# TODO: Add edit buttons for movie, profile and reviews
+# TODO: Add edit buttons for  reviews
 # TODO: Change user has not added movies and reviews yet to add a movie and add a review when profile is of current user
 # TODO: Add a slide/carousal for added movies in profile
 
@@ -192,11 +192,7 @@ def review_movie(request, movie_id):
             review = Review(user=request.user, review=review_content, movie=movie)
             review.save()
     return HttpResponseRedirect(f"/movie/{movie_id}")
-        
 
-@login_required(login_url="/login")
-def edit_movie(request, movie_id):
-    pass
 
 @login_required(login_url="/login")
 def dlt_movie(request, movie_id):
@@ -252,3 +248,35 @@ def edit_profile(request, pk):
                "https://img.freepik.com/free-photo/3d-illustration-teenager-with-funny-face-glasses_1142-50955.jpg?t=st=1715431731~exp=1715435331~hmac=3731908b1bc463fb40417a9e53cdf41898d536e39cf5fd6b7735b99f8c461a34&w=826"]
     
     return render(request, "edit_profile.html", {"avatars": avatars})
+
+
+
+@login_required(login_url="/login")
+def edit_movie(request, movie_id):
+    
+    movie = Movie.objects.get(id=movie_id)
+    if not request.user.id == movie.author.id:
+        return HttpResponseForbidden("Forbidden")
+    categories = Category.objects.all()
+
+    if request.method == "POST":        
+        poster = request.FILES["poster"] if request.FILES else  movie.poster
+        title = request.POST["title"]
+        description = request.POST["description"]
+        actors = request.POST["actors"]
+        release_date = request.POST["release_date"]
+        trailer = request.POST["trailer"]
+        genre = request.POST["genre"]
+
+        movie.title = title
+        movie.description = description
+        movie.genre = genre
+        movie.actors = actors
+        movie.trailer = trailer
+        movie.poster = poster
+        movie.release_date = release_date
+        movie.save()
+        return HttpResponseRedirect(f"/movie/{movie_id}")
+
+
+    return render(request, "edit_movie.html", {"movie": movie, "categories": categories})
