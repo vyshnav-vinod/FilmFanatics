@@ -96,7 +96,11 @@ def profile(request, pk):
     user_movies = Movie.objects.all().filter(author=pk)
     return render(request, "profile.html", {"profile_user": user, "movies": user_movies})
 
-def view_movie(request, pk):
+def view_movie(request, pk, _already_reviewed=False):
+    # _already_reviewed is set to know if user has already reviewed it. It
+    # is called from review_movie() only
+    if _already_reviewed:
+        messages.error(request, "You have already reviewed once!!")
     movie = Movie.objects.get(id=pk)
     reviews = Review.objects.filter(movie=movie)
     reviews_count = reviews.count()
@@ -176,6 +180,8 @@ def review_movie(request, movie_id):
         review_content = request.POST["review"]
         try:
             review = Review.objects.filter(movie=movie).get(user=request.user.id)
+            if review.review:
+                return view_movie(request, movie_id, _already_reviewed=True)
             review.review = review_content
             review.save()
         except Review.DoesNotExist:
