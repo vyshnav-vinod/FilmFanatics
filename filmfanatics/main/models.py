@@ -35,7 +35,7 @@ class Avatar(models.Model):
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    review = models.CharField(max_length=500, null=True)
+    review = models.CharField(max_length=2000, null=True)
     rating = models.IntegerField(default=0)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     added_on = models.DateField(auto_now=True)

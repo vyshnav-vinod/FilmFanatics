@@ -1,3 +1,6 @@
+# TODO: Add edit buttons for movie, profile and reviews
+# TODO: Add delete button for movie and review
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -113,7 +116,6 @@ def list_movies(request):
         search = request.POST["search"]
         genre = request.POST["genre"]
         search_filter = request.POST["filter"]
-        # TODO: After rating and reviews implement filter searches
         if genre:
             movies = Movie.objects.filter(Q(title__contains=search) & Q(category__name=genre))
         else:
