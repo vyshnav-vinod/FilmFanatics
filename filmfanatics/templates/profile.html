@@ -34,6 +34,10 @@
                         </div>
                     </a>
                 </div>
+                {% empty %}
+                <div class="alert alert-info" role="alert">
+                    User has not added any movies yet!!
+                </div>
                 {% endfor %}
             </div>
         </div>

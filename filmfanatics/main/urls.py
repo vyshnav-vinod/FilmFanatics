@@ -18,7 +18,6 @@ urlpatterns = [
     # path("edit/profile/<int:pk>", views.edit_movie, name="editprofile"),
     # path("edit/review/<int:pk>", views.edit_movie, name="editreview"),
     path("delete/movie/<int:movie_id>", views.dlt_movie, name="dltmovie"),
-    # path("delete/profile/<int:pk>", views.dlt_movie, name="dltprofile"),
     # path("delete/review/<int:pk>", views.dlt_movie, name="dltreview"),
 
 

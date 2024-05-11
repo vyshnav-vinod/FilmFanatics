@@ -13,7 +13,10 @@
             <p>and revel in cinematic magic.</p>
         </div>
         <div class="mt-4">
+            {% if user.is_authenticated %}
+            {% else %}
            <a href="{% url 'main:register' %}" style="text-decoration: none; color: inherit;"><button type="button" class="btn btn-dark btn-lg mr-3">Get Started</button></a>
+           {% endif %}
            <a href="{% url 'main:allmovies' %}" style="text-decoration: none; color: inherit;"><button type="button" class="btn btn-light btn-lg">Explore</button></a>
         </div>
     </div>

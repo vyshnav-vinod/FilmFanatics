@@ -37,7 +37,7 @@
 
     <h2 class="h2 mb-4">User Reviews</h2>
 
-    <section class="content-item" id="reviews">
+    <section class="content-item mb-5" id="reviews">
         <div class="container">   
             <div class="row">
                 <div class="col-sm-12">
@@ -73,7 +73,7 @@
                     
                     <!-- REVIEW - START -->
                     {% for review in reviews %}
-                    <div class="media">
+                    <div class="media ">
                         <a class="pull-left" href="{% url 'main:profile' review.user.id %}"><img class="media-object" src="{{ review.user.avatar.img }}" alt=""></a>
                         <div class="media-body">
                             <h4 class="media-heading">{{ review.user.username }}</h4>

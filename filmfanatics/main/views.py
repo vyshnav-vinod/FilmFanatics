@@ -106,7 +106,7 @@ def view_movie(request, pk, _already_reviewed=False):
     if _already_reviewed:
         messages.error(request, "You have already reviewed once!!")
     movie = Movie.objects.get(id=pk)
-    reviews = Review.objects.filter(movie=movie).order_by("-added_on")
+    reviews = Review.objects.filter(movie=movie).order_by("-added_on").filter(~Q(review=None))
     reviews_count = reviews.count()
     return render(request, "view_movie.html", {"movie": movie, "reviews": reviews, "count": reviews_count})
 
