@@ -1,3 +1,23 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block body %}
+
+<div class="container-fluid position-relative p-0">
+    <!-- Image Banner -->
+    <img src="{% static 'img/banner.jpg' %}" alt="Description of Image" class="img-fluid w-100">
+    <!-- Text Content on the Right -->
+    <div class="position-absolute top-0 end-0 text-light p-5">
+        <h1 class="display-1" style="font-family: 'Brush Script MT', cursive;">FilmFanatics</h1>
+        <div class="display-4" style="font-family: 'Brush Script MT', cursive;">
+            <p>Bringing movie lovers together</p>
+            <p>share, review,</p>
+            <p>and revel in cinematic magic.</p>
+        </div>
+        <div class="mt-4">
+           <a href="{% url 'main:register' %}" style="text-decoration: none; color: inherit;"><button type="button" class="btn btn-dark btn-lg mr-3">Get Started</button></a>
+           <a href="{% url 'main:allmovies' %}" style="text-decoration: none; color: inherit;"><button type="button" class="btn btn-light btn-lg">Explore</button></a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
