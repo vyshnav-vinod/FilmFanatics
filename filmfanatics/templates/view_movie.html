@@ -28,10 +28,40 @@
     </div>
     <div class="row mt-5">
         <div class="col-md-12">
-            <h2 class="h4 mb-4">User Reviews</h2>
-            <!-- Add review section here -->
+            <h2 class="h2 mb-4">User Reviews</h2>
+            <!-- Review submission form -->
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'main:reviewmovie' movie.id %}"> {% csrf_token %}
+                <div class="form-group">
+                    <textarea class="form-control" name="review" rows="4" placeholder="Write your review here" required></textarea>
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-primary btn-sm right">Submit Review</button>
+                </div>
+            </form>
+            {% else %}
+            <div class="alert alert-warning" role="alert">
+                You must be logged in to review.
+                <a href="{% url 'main:login' %}" class="btn btn-primary btn-sm ml-2">Login</a>
+            </div>
+            {% endif %}
+            <!-- Display reviews -->
+            <div class="mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="media">
+                            <img src="avatar_url_placeholder" class="mr-3 rounded-circle" alt="User Avatar" style="width: 64px; height: 64px;">
+                            <div class="media-body">
+                                <h5 class="mt-0">Username Placeholder</h5>
+                                <p>Review Content Placeholder</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    
 </div>
 
 <script>

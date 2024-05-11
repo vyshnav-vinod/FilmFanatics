@@ -155,7 +155,22 @@ def rate_movie(request, movie_id):
         movie.rating = reviews.aggregate(Sum('rating'))['rating__sum'] / reviews.count()
         movie.save()
         return HttpResponseRedirect(f"/movie/{movie_id}")
-
-    print(reviews.aggregate(Sum('rating')))
-
+    
     return render(request, "rate.html", {"has_rated": has_rated})
+
+
+@login_required(login_url="/login")
+def review_movie(request, movie_id):
+    # TODO: Add in html the limit of words of review is 500
+    if request.method == "POST":
+        movie = Movie.objects.get(id=movie_id)
+        review_content = request.POST["review"]
+        try:
+            review = Review.objects.filter(movie=movie).get(user=request.user.id)
+            review.review = review_content
+            review.save()
+        except Review.DoesNotExist:
+            review = Review(user=request.user, review=review_content, movie=movie)
+            review.save()
+    return HttpResponseRedirect(f"/movie/{movie_id}")
+        
