@@ -140,22 +140,29 @@ def rate_movie(request, movie_id):
     # TODO: FIx the button coloring
 
     movie = Movie.objects.get(id=movie_id)
-    reviews = Review.objects.all().filter(movie=movie)
-    user = User.objects.get(id=request.user.id)
-    has_rated = reviews.filter(user=user)
-    if has_rated:
-        has_rated = True
-    else:
-        has_rated =  False
+    review = None
+    try:
+        review = Review.objects.filter(user=request.user).get(movie=movie)
+        has_rated = True if review.rating > 0 else False
+    except Review.DoesNotExist:
+        has_rated = False
 
     if request.method == "POST":
-        rating = request.POST["rating"]
-        user_rated = Review(user=request.user, movie=movie, rating=rating)
-        user_rated.save()
-        movie.rating = reviews.aggregate(Sum('rating'))['rating__sum'] / reviews.count()
+        user_rating = request.POST["rating"]
+        if review is None:
+            # No rating or review done by user
+            review = Review(movie=movie, user=request.user, rating=user_rating)
+            review.save()
+        else:
+            review.rating = user_rating
+            review.save()
+
+        movie_reviews = Review.objects.filter(movie=movie)
+        movie.rating = movie_reviews.aggregate(Sum('rating'))['rating__sum'] / movie_reviews.count()
         movie.save()
+
         return HttpResponseRedirect(f"/movie/{movie_id}")
-    
+
     return render(request, "rate.html", {"has_rated": has_rated})
 
 
