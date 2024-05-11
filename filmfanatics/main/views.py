@@ -1,5 +1,6 @@
 # TODO: Add edit buttons for movie, profile and reviews
-# TODO: Add delete button for movie and review
+# TODO: Change user has not added movies and reviews yet to add a movie and add a review when profile is of current user
+# TODO: Add a slide/carousal for added movies in profile
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -219,4 +220,35 @@ def dlt_review(request, movie_id):
         return HttpResponseRedirect(f"/movie/{movie_id}")
     return HttpResponseForbidden("Forbidden")
     
-            
+@login_required(login_url="/login")
+def edit_profile(request, pk):
+    if not request.user.id == pk:
+        return HttpResponseForbidden("Forbidden")
+
+    if request.method == "POST":
+        # TODO: edit avatar
+        # TODO: change password option
+        username = request.POST["username"]
+        firstname = request.POST["firstname"]
+        lastname = request.POST["lastname"]
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already taken!!")
+            return render(request, "edit_profile.html")
+
+        user = User.objects.get(id=pk)
+        user.username = username
+        user.first_name = firstname
+        user.last_name = lastname
+        user.save()
+
+        return HttpResponseRedirect(f"/profile/{pk}")
+    
+    avatars = ["https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?t=st=1715333046~exp=1715336646~hmac=e941db73c41712d97bfc01647685731931716d7f4460a130d20c786d0635a8f2&w=826", 
+               "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=826&t=st=1715431551~exp=1715432151~hmac=2b0715fcae82a2483a29822218fa5256594d067639db97f3a828f027d8e9934a",
+               "https://img.freepik.com/free-photo/androgynous-avatar-non-binary-queer-person_23-2151100226.jpg?t=st=1715431642~exp=1715435242~hmac=89534f023b56c20a1016d36367b8bc1103d25dc33196ba3635b902bbfc3aab57&w=826",
+               "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671140.jpg?t=st=1715431656~exp=1715435256~hmac=9aa69c4b1309e39b971b59a415f97ba324ef178dd26bebcae635796dfe83fda6&w=826",
+               "https://img.freepik.com/free-psd/3d-illustration-person-with-glasses_23-2149436185.jpg?t=st=1715431678~exp=1715435278~hmac=2b9bcaf02c39b95bd68acfca0d97d0c077b6a162171685d55cacd83b1459e118&w=826",
+               "https://img.freepik.com/free-photo/3d-illustration-teenager-with-funny-face-glasses_1142-50955.jpg?t=st=1715431731~exp=1715435331~hmac=3731908b1bc463fb40417a9e53cdf41898d536e39cf5fd6b7735b99f8c461a34&w=826"]
+    
+    return render(request, "edit_profile.html", {"avatars": avatars})

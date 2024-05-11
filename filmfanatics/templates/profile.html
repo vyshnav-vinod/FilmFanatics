@@ -14,6 +14,9 @@
                     <p class="card-text lead"><strong>Username:</strong> {{ profile_user.username }}</p>
                     <p class="card-text lead"><strong>Email:</strong> {{ profile_user.email }}</p>
                     <p class="card-text lead"><strong>Joined Date:</strong> {{ profile_user.date_joined }}</p>
+                    {% if user.id == profile_user.id %}
+                    <a href="{% url 'main:editprofile' profile_user.id %}"><button type="button" class="btn btn-warning">Edit Profile</button></a>
+                    {% endif %}
                 </div>
             </div>
         </div>

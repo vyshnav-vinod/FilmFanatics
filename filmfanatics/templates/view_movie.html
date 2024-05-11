@@ -30,7 +30,7 @@
             <p class="lead">{{ movie.release_date }}</p>
             <h2 class="h4"><strong>Actors:</strong></h2>
             <p class="lead">{{ movie.actors }}</p>
-            <a href="{{ movie.trailer }}"><button type="button" class="btn btn-primary btn-lg mt-3">Watch Trailer</button></a>
+            <a href="{{ movie.trailer }}" target="_blank"><button type="button" class="btn btn-primary btn-lg mt-3">Watch Trailer</button></a>
             <a href="{% url 'main:ratemovie' movie.id %}"><button type="button" class="btn btn-warning btn-lg mt-3">Rate this movie</button></a>
         </div>
     </div>
