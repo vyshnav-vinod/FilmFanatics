@@ -45,6 +45,7 @@ def register_view(request):
         else:
             user = User.objects.create_user(username=username, email=email, first_name=firstname, last_name=lastname, password=password)
             user.save()
+            Avatar.objects.create(user=user).save()
             context = {
                 'firstname' : firstname,
                 'lastname' : lastname
@@ -121,7 +122,11 @@ def list_movies(request):
                     movies = movies.order_by("-release_date")
                 case "oldest":
                     movies = movies.order_by("release_date")
-
+                case "most_rated":
+                    movies = movies.order_by("-rating")
+                case "least_rated":
+                    movies = movies.order_by("rating")
+                    
     
     else:
         movies = Movie.objects.all().order_by("-added_on")
