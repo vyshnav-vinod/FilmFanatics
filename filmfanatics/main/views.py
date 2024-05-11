@@ -14,7 +14,6 @@ def index(request):
     return render(request, "index.html")
 
 def login_view(request):
-    # TODO: Create a user index page (user base html as well)
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -94,12 +93,7 @@ def profile(request, pk):
 
     user = User.objects.get(id=pk)
     user_movies = Movie.objects.all().filter(author=pk)
-    try:
-        avatar = Avatar.objects.get(user=pk)
-    except Avatar.DoesNotExist:
-        avatar = Avatar(user=user)
-        avatar.save()
-    return render(request, "profile.html", {"profile_user": user, "movies": user_movies, "avatar": avatar})
+    return render(request, "profile.html", {"profile_user": user, "movies": user_movies})
 
 def view_movie(request, pk):
     movie = Movie.objects.get(id=pk)
