@@ -98,7 +98,9 @@ def profile(request, pk):
 
 def view_movie(request, pk):
     movie = Movie.objects.get(id=pk)
-    return render(request, "view_movie.html", {"movie": movie})
+    reviews = Review.objects.filter(movie=movie)
+    reviews_count = reviews.count()
+    return render(request, "view_movie.html", {"movie": movie, "reviews": reviews, "count": reviews_count})
 
 def list_movies(request):
     genres = Category.objects.all()
