@@ -83,7 +83,7 @@ def add_movie(request):
     return render(request, "add_movie.html", {'categories': category_list})
 
 
-@login_required(login_url="/login")
+# @login_required(login_url="/login")
 def profile(request, pk):
     """Profile page for others to view and also for user to edit profile"""
     if request.method == "POST":
