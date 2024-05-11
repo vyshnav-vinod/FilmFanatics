@@ -86,7 +86,9 @@
                     </div>
                     <div class="position-absolute top-0 end-0">
                         {% if review.user.id == user.id %}
-                        <i class="fas fa-edit" style="color: blue;"></i>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#editReview" class="btn btn-link p-0">
+                            <i class="fas fa-edit" style="color: blue;"></i>
+                        </button>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#dltReview" class="btn btn-link p-0">
                             <i class="fas fa-trash-alt" style="color: red;"></i>
                         </button>
@@ -148,6 +150,29 @@
     </div>
 </div>
 <!-- DELETE POPUP REVIEW END -->
+
+<!-- EDIT POPUP REVIEW START -->
+{% if curr_user_review %}
+<div class="modal fade" id="editReview" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Review</h5>
+        </div>
+        <form method="post" action="{% url 'main:editreview' curr_user_review.id %}"> {% csrf_token %}
+        <div class="modal-body">
+            <textarea name="review" placeholder="Review" class="form-control" maxlength="2000">{{ curr_user_review.review }}</textarea> <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Edit</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <!-- EDIT POPUP REVIEW END -->
 
 <script>
     // Limit textarea review box to 2000 characters

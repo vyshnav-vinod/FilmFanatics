@@ -39,3 +39,4 @@ class Review(models.Model):
     rating = models.IntegerField(default=0)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     added_on = models.DateField(auto_now=True)
+    updated_time = models.DateTimeField(auto_now=True)

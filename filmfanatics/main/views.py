@@ -1,4 +1,3 @@
-# TODO: Add edit buttons for  reviews
 # TODO: Change user has not added movies and reviews yet to add a movie and add a review when profile is of current user
 # TODO: Add a slide/carousal for added movies in profile
 
@@ -90,12 +89,7 @@ def add_movie(request):
 # @login_required(login_url="/login")
 def profile(request, pk):
     """Profile page for others to view and also for user to edit profile"""
-    if request.method == "POST":
-        # Option to edit (Only show edit if current user is the one editing )
-        pass
-
     # FOR Now let user choose from some default avatars and no option to add custom avatar
-
     user = User.objects.get(id=pk)
     user_movies = Movie.objects.all().filter(author=pk)
     user_reviews = Review.objects.filter(user=user).order_by("-added_on")
@@ -103,14 +97,15 @@ def profile(request, pk):
 
 def view_movie(request, pk, _already_reviewed=False):
     # _already_reviewed is set to know if user has already reviewed it. It
-    # is called from review_movie() only
+    # is called from review_movie() ONLY
     # TODO: Fix the position of the edit and dlt icon in reviews
     if _already_reviewed:
         messages.error(request, "You have already reviewed once!!")
     movie = Movie.objects.get(id=pk)
-    reviews = Review.objects.filter(movie=movie).order_by("-added_on").filter(~Q(review=None))
+    reviews = Review.objects.filter(movie=movie).order_by("-updated_time").filter(~Q(review=None))
     reviews_count = reviews.count()
-    return render(request, "view_movie.html", {"movie": movie, "reviews": reviews, "count": reviews_count})
+    curr_user_review = reviews.get(user=request.user) if reviews.filter(user=request.user).exists() else None
+    return render(request, "view_movie.html", {"movie": movie, "reviews": reviews, "count": reviews_count, "curr_user_review": curr_user_review})
 
 def list_movies(request):
     genres = Category.objects.all()
@@ -280,3 +275,16 @@ def edit_movie(request, movie_id):
 
 
     return render(request, "edit_movie.html", {"movie": movie, "categories": categories})
+
+@login_required(login_url="/login")
+def edit_review(request, pk):
+    if request.method == "POST":
+        review = Review.objects.get(id=pk)
+        if not review.user.id == request.user.id:
+            return HttpResponseForbidden("Forbidden")
+        
+        review.review = request.POST["review"]
+        review.save()
+        return HttpResponseRedirect(f"/movie/{review.movie.id}")
+
+    return HttpResponseForbidden("Forbidden")

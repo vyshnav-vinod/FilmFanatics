@@ -16,7 +16,7 @@ urlpatterns = [
     path("addreview/<int:movie_id>", views.review_movie, name="reviewmovie"),
     path("edit/movie/<int:movie_id>", views.edit_movie, name="editmovie"),
     path("edit/profile/<int:pk>", views.edit_profile, name="editprofile"),
-    # path("edit/review/<int:pk>", views.edit_movie, name="editreview"),
+    path("edit/review/<int:pk>", views.edit_review, name="editreview"),
     path("delete/movie/<int:movie_id>", views.dlt_movie, name="dltmovie"),
     path("delete/review/<int:movie_id>", views.dlt_review, name="dltreview"),
 
