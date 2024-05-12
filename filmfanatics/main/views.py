@@ -1,4 +1,3 @@
-# TODO: Change user has not added movies and reviews yet to add a movie and add a review when profile is of current user
 # TODO: Add a slide/carousal for added movies in profile
 
 from django.contrib import messages
@@ -86,7 +85,6 @@ def add_movie(request):
     return render(request, "add_movie.html", {'categories': category_list})
 
 
-# @login_required(login_url="/login")
 def profile(request, pk):
     """Profile page for others to view and also for user to edit profile"""
     # FOR Now let user choose from some default avatars and no option to add custom avatar
@@ -98,7 +96,7 @@ def profile(request, pk):
 def view_movie(request, pk, _already_reviewed=False):
     # _already_reviewed is set to know if user has already reviewed it. It
     # is called from review_movie() ONLY
-    # TODO: Fix the position of the edit and dlt icon in reviews
+
     if _already_reviewed:
         messages.error(request, "You have already reviewed once!!")
     movie = Movie.objects.get(id=pk)
@@ -142,9 +140,6 @@ def list_movies(request):
 
 @login_required(login_url="/login")
 def rate_movie(request, movie_id):
-    # TODO: Fix the coloring
-    # TODO: FIx the button coloring
-
     movie = Movie.objects.get(id=movie_id)
     review = None
     try:

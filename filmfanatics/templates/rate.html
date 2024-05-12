@@ -1,63 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Rating</title>
-    <style>
-        .rating {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+{% extends 'base.html' %}
 
-        input[type="radio"] {
-            display: none;
-        }
+{% block body %}
 
-        label {
-            cursor: pointer;
-            font-size: 30px;
-            color: #888888;
-        }
+<style>
 
-        label:before {
-            content: "★";
-        }
 
-        input[type="radio"]:checked ~ label:nth-of-type(-n+5):before {
-            color: #f2bc05;
-        }
-    </style>
-</head>
-<body>
-    {% if has_rated == False %}
-    <form method="post">
-        {% csrf_token %}
-        <div class="rating">
-            <input type="radio" id="star1" name="rating" value="1">
-            <label for="star1"></label>
+#full-stars-example-two {
 
-            <input type="radio" id="star2" name="rating" value="2">
-            <label for="star2"></label>
+/* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
+.rating-group {
+  display: inline-flex;
+}
 
-            <input type="radio" id="star3" name="rating" value="3">
-            <label for="star3"></label>
+/* make hover effect work properly in IE */
+.rating__icon {
+  pointer-events: none;
+}
 
-            <input type="radio" id="star4" name="rating" value="4">
-            <label for="star4"></label>
+/* hide radio inputs */
+.rating__input {
+ position: absolute !important;
+ left: -9999px !important;
+}
 
-            <input type="radio" id="star5" name="rating" value="5">
-            <label for="star5"></label>
-        </div>
+/* hide 'none' input from screenreaders */
+.rating__input--none {
+  display: none
+}
 
-        <input type="submit" value="Submit Rating">
-    </form>
-    {% else %}
-    <div align="center">
-    <h3>You have already rated</h3>
-    <a href="/"><button class="btn btn-primary">Home</button></a>
+/* set icon padding and size */
+.rating__label {
+  cursor: pointer;
+  padding: 0 0.1em;
+  font-size: 2rem;
+}
+
+/* set default star color */
+.rating__icon--star {
+  color: orange;
+}
+
+/* if any input is checked, make its following siblings grey */
+.rating__input:checked ~ .rating__label .rating__icon--star {
+  color: #ddd;
+}
+
+/* make all stars orange on rating group hover */
+.rating-group:hover .rating__label .rating__icon--star {
+  color: orange;
+}
+
+/* make hovered input's following siblings grey on hover */
+.rating__input:hover ~ .rating__label .rating__icon--star {
+  color: #ddd;
+}
+}
+
+</style>
+
+{% if has_rated %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <h3>You have already rated</h3>
+        <a href="/" class="btn btn-primary mt-3">Home</a>
+      </div>
     </div>
-    {% endif %}
-</body>
-</html>
+  </div>  
+{% else %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <div id="full-stars-example-two">
+          <div class="rating-group">
+            <form method="post"> {% csrf_token %}
+              <label aria-label="1 star" class="rating__label" for="rating3-1"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+              <input class="rating__input" name="rating" id="rating3-1" value="1" type="radio">
+              <label aria-label="2 stars" class="rating__label" for="rating3-2"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+              <input class="rating__input" name="rating" id="rating3-2" value="2" type="radio">
+              <label aria-label="3 stars" class="rating__label" for="rating3-3"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+              <input class="rating__input" name="rating" id="rating3-3" value="3" type="radio">
+              <label aria-label="4 stars" class="rating__label" for="rating3-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+              <input class="rating__input" name="rating" id="rating3-4" value="4" type="radio">
+              <label aria-label="5 stars" class="rating__label" for="rating3-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+              <input class="rating__input" name="rating" id="rating3-5" value="5" type="radio"><br>
+              <button type="submit" class="btn btn-warning mt-3">Rate</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
