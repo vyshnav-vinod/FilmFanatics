@@ -102,7 +102,10 @@ def view_movie(request, pk, _already_reviewed=False):
     movie = Movie.objects.get(id=pk)
     reviews = Review.objects.filter(movie=movie).order_by("-updated_time").filter(~Q(review=None))
     reviews_count = reviews.count()
-    curr_user_review = reviews.get(user=request.user) if reviews.filter(user=request.user).exists() else None
+    try:
+        curr_user_review = reviews.get(user=request.user) if reviews.filter(user=request.user).exists() else None
+    except:
+        curr_user_review = None
     return render(request, "view_movie.html", {"movie": movie, "reviews": reviews, "count": reviews_count, "curr_user_review": curr_user_review})
 
 def list_movies(request):
