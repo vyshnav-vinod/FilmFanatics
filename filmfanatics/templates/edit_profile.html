@@ -31,11 +31,11 @@
                         {% endfor %}
                         {% endif %}
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="{% url 'main:profile' user.id %}" class="btn btn-secondary">Back</a>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
